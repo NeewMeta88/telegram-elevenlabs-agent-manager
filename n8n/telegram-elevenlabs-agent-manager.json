@@ -474,9 +474,74 @@
     {
       "parameters": {
         "chatId": "={{ $('Build Context').item.json.chat_id }}",
-        "text": "Telegram ElevenLabs Agent Manager",
+        "text": "Telegram ElevenLabs Agent Manager\n\nChoose an action:",
         "additionalFields": {
-          "reply_markup": "={{ JSON.stringify({ inline_keyboard: [[{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Current agent', callback_data: 'agent:current' }], [{ text: 'Update prompt', callback_data: 'edit:prompt' }], [{ text: 'Update welcome message', callback_data: 'edit:welcome' }], [{ text: 'Update knowledge base', callback_data: 'edit:knowledge' }]] }) }}"
+          "appendAttribution": false
+        },
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "My agents",
+                    "additionalFields": {
+                      "callback_data": "agents:list"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Current agent",
+                    "additionalFields": {
+                      "callback_data": "agent:current"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update prompt",
+                    "additionalFields": {
+                      "callback_data": "edit:prompt"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update welcome message",
+                    "additionalFields": {
+                      "callback_data": "edit:welcome"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update knowledge base",
+                    "additionalFields": {
+                      "callback_data": "edit:knowledge"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
         }
       },
       "id": "3bd35b4e-bb2c-b376-e678-9b504f07b437",
@@ -519,7 +584,72 @@
         "chatId": "={{ $('Build Context').item.json.chat_id }}",
         "text": "Current action cancelled.",
         "additionalFields": {
-          "reply_markup": "={{ JSON.stringify({ inline_keyboard: [[{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Current agent', callback_data: 'agent:current' }], [{ text: 'Update prompt', callback_data: 'edit:prompt' }], [{ text: 'Update welcome message', callback_data: 'edit:welcome' }], [{ text: 'Update knowledge base', callback_data: 'edit:knowledge' }]] }) }}"
+          "appendAttribution": false
+        },
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "My agents",
+                    "additionalFields": {
+                      "callback_data": "agents:list"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Current agent",
+                    "additionalFields": {
+                      "callback_data": "agent:current"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update prompt",
+                    "additionalFields": {
+                      "callback_data": "edit:prompt"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update welcome message",
+                    "additionalFields": {
+                      "callback_data": "edit:welcome"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update knowledge base",
+                    "additionalFields": {
+                      "callback_data": "edit:knowledge"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
         }
       },
       "id": "f1a95539-1961-be49-8aff-18c43d40b96b",
@@ -576,8 +706,10 @@
         "chatId": "={{ $('Build Context').item.json.chat_id }}",
         "text": "={{ $json.text }}",
         "additionalFields": {
-          "reply_markup": "={{ JSON.stringify($json.reply_markup) }}"
-        }
+          "appendAttribution": false
+        },
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": "={{ { rows: ($json.reply_markup?.inline_keyboard || []).map(row => ({ row: { buttons: row.map(button => ({ text: button.text, additionalFields: { callback_data: button.callback_data } })) } })) } }}"
       },
       "id": "8425217f-874b-69bd-5e63-e553093578c5",
       "name": "Send Agents List",
@@ -666,8 +798,10 @@
         "chatId": "={{ $('Build Context').item.json.chat_id }}",
         "text": "={{ $json.text }}",
         "additionalFields": {
-          "reply_markup": "={{ JSON.stringify($json.reply_markup) }}"
-        }
+          "appendAttribution": false
+        },
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": "={{ { rows: ($json.reply_markup?.inline_keyboard || []).map(row => ({ row: { buttons: row.map(button => ({ text: button.text, additionalFields: { callback_data: button.callback_data } })) } })) } }}"
       },
       "id": "841f193d-0619-1a04-cc4a-ab0043bdd742",
       "name": "Send Selected Agent Menu",
@@ -723,8 +857,10 @@
         "chatId": "={{ $('Build Context').item.json.chat_id }}",
         "text": "={{ $json.text }}",
         "additionalFields": {
-          "reply_markup": "={{ JSON.stringify($json.reply_markup) }}"
-        }
+          "appendAttribution": false
+        },
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": "={{ { rows: ($json.reply_markup?.inline_keyboard || []).map(row => ({ row: { buttons: row.map(button => ({ text: button.text, additionalFields: { callback_data: button.callback_data } })) } })) } }}"
       },
       "id": "a22f1a44-c76b-fac0-e626-bc9353196c61",
       "name": "Send Current Agent",
@@ -800,8 +936,10 @@
         "chatId": "={{ $('Build Context').item.json.chat_id }}",
         "text": "={{ $json.text }}",
         "additionalFields": {
-          "reply_markup": "={{ JSON.stringify($json.reply_markup) }}"
-        }
+          "appendAttribution": false
+        },
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": "={{ { rows: ($json.reply_markup?.inline_keyboard || []).map(row => ({ row: { buttons: row.map(button => ({ text: button.text, additionalFields: { callback_data: button.callback_data } })) } })) } }}"
       },
       "id": "4aac77a4-df77-0850-e348-47565e99f1d0",
       "name": "Send Ask Prompt",
@@ -979,7 +1117,84 @@
         "chatId": "={{ $('Build Context').item.json.chat_id }}",
         "text": "Agent prompt updated successfully.",
         "additionalFields": {
-          "reply_markup": "={{ JSON.stringify({ inline_keyboard: [[{ text: 'Current agent', callback_data: 'agent:current' }], [{ text: 'Update prompt', callback_data: 'edit:prompt' }], [{ text: 'Update welcome message', callback_data: 'edit:welcome' }], [{ text: 'Update knowledge base', callback_data: 'edit:knowledge' }], [{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Menu', callback_data: 'menu' }]] }) }}"
+          "appendAttribution": false
+        },
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Current agent",
+                    "additionalFields": {
+                      "callback_data": "agent:current"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update prompt",
+                    "additionalFields": {
+                      "callback_data": "edit:prompt"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update welcome message",
+                    "additionalFields": {
+                      "callback_data": "edit:welcome"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update knowledge base",
+                    "additionalFields": {
+                      "callback_data": "edit:knowledge"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "My agents",
+                    "additionalFields": {
+                      "callback_data": "agents:list"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Menu",
+                    "additionalFields": {
+                      "callback_data": "menu"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
         }
       },
       "id": "e57be331-0ba6-676f-9a40-ca9d769be684",
@@ -1056,8 +1271,10 @@
         "chatId": "={{ $('Build Context').item.json.chat_id }}",
         "text": "={{ $json.text }}",
         "additionalFields": {
-          "reply_markup": "={{ JSON.stringify($json.reply_markup) }}"
-        }
+          "appendAttribution": false
+        },
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": "={{ { rows: ($json.reply_markup?.inline_keyboard || []).map(row => ({ row: { buttons: row.map(button => ({ text: button.text, additionalFields: { callback_data: button.callback_data } })) } })) } }}"
       },
       "id": "6ecea3ed-572b-827f-d9d3-9bc0ab01bbfe",
       "name": "Send Ask Welcome",
@@ -1235,7 +1452,84 @@
         "chatId": "={{ $('Build Context').item.json.chat_id }}",
         "text": "Agent welcome message updated successfully.",
         "additionalFields": {
-          "reply_markup": "={{ JSON.stringify({ inline_keyboard: [[{ text: 'Current agent', callback_data: 'agent:current' }], [{ text: 'Update prompt', callback_data: 'edit:prompt' }], [{ text: 'Update welcome message', callback_data: 'edit:welcome' }], [{ text: 'Update knowledge base', callback_data: 'edit:knowledge' }], [{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Menu', callback_data: 'menu' }]] }) }}"
+          "appendAttribution": false
+        },
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Current agent",
+                    "additionalFields": {
+                      "callback_data": "agent:current"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update prompt",
+                    "additionalFields": {
+                      "callback_data": "edit:prompt"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update welcome message",
+                    "additionalFields": {
+                      "callback_data": "edit:welcome"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update knowledge base",
+                    "additionalFields": {
+                      "callback_data": "edit:knowledge"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "My agents",
+                    "additionalFields": {
+                      "callback_data": "agents:list"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Menu",
+                    "additionalFields": {
+                      "callback_data": "menu"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
         }
       },
       "id": "aa17cfac-ee5b-4dd7-666e-3f227f6ec844",
@@ -1312,8 +1606,10 @@
         "chatId": "={{ $('Build Context').item.json.chat_id }}",
         "text": "={{ $json.text }}",
         "additionalFields": {
-          "reply_markup": "={{ JSON.stringify($json.reply_markup) }}"
-        }
+          "appendAttribution": false
+        },
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": "={{ { rows: ($json.reply_markup?.inline_keyboard || []).map(row => ({ row: { buttons: row.map(button => ({ text: button.text, additionalFields: { callback_data: button.callback_data } })) } })) } }}"
       },
       "id": "70689bef-52c7-a5a8-61ed-3493423a61e1",
       "name": "Send Ask Knowledge",
@@ -1523,7 +1819,84 @@
         "chatId": "={{ $('Build Context').item.json.chat_id }}",
         "text": "Agent knowledge base updated successfully.",
         "additionalFields": {
-          "reply_markup": "={{ JSON.stringify({ inline_keyboard: [[{ text: 'Current agent', callback_data: 'agent:current' }], [{ text: 'Update prompt', callback_data: 'edit:prompt' }], [{ text: 'Update welcome message', callback_data: 'edit:welcome' }], [{ text: 'Update knowledge base', callback_data: 'edit:knowledge' }], [{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Menu', callback_data: 'menu' }]] }) }}"
+          "appendAttribution": false
+        },
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Current agent",
+                    "additionalFields": {
+                      "callback_data": "agent:current"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update prompt",
+                    "additionalFields": {
+                      "callback_data": "edit:prompt"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update welcome message",
+                    "additionalFields": {
+                      "callback_data": "edit:welcome"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update knowledge base",
+                    "additionalFields": {
+                      "callback_data": "edit:knowledge"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "My agents",
+                    "additionalFields": {
+                      "callback_data": "agents:list"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Menu",
+                    "additionalFields": {
+                      "callback_data": "menu"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
         }
       },
       "id": "1f32f7d5-9fc4-ba23-af67-5b4d8919194a",
@@ -1546,7 +1919,36 @@
         "chatId": "={{ $('Build Context').item.json.chat_id }}",
         "text": "Please select an agent first.",
         "additionalFields": {
-          "reply_markup": "={{ JSON.stringify({ inline_keyboard: [[{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Menu', callback_data: 'menu' }]] }) }}"
+          "appendAttribution": false
+        },
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "My agents",
+                    "additionalFields": {
+                      "callback_data": "agents:list"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Menu",
+                    "additionalFields": {
+                      "callback_data": "menu"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
         }
       },
       "id": "98362987-e25a-fc31-d159-9c9b7bbae4a9",
@@ -1569,7 +1971,72 @@
         "chatId": "={{ $('Build Context').item.json.chat_id }}",
         "text": "Unknown command. Use /menu to continue.",
         "additionalFields": {
-          "reply_markup": "={{ JSON.stringify({ inline_keyboard: [[{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Current agent', callback_data: 'agent:current' }], [{ text: 'Update prompt', callback_data: 'edit:prompt' }], [{ text: 'Update welcome message', callback_data: 'edit:welcome' }], [{ text: 'Update knowledge base', callback_data: 'edit:knowledge' }]] }) }}"
+          "appendAttribution": false
+        },
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "My agents",
+                    "additionalFields": {
+                      "callback_data": "agents:list"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Current agent",
+                    "additionalFields": {
+                      "callback_data": "agent:current"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update prompt",
+                    "additionalFields": {
+                      "callback_data": "edit:prompt"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update welcome message",
+                    "additionalFields": {
+                      "callback_data": "edit:welcome"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Update knowledge base",
+                    "additionalFields": {
+                      "callback_data": "edit:knowledge"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
         }
       },
       "id": "be134fc7-2fc4-0777-9c1b-5766267f2c80",
