@@ -1,0 +1,22 @@
+.env
+.env.local
+
+# Local n8n data
+.n8n/
+n8n/.n8n/
+n8n-data/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
