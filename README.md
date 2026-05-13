@@ -30,12 +30,22 @@ n8n-based Telegram bot for managing ElevenLabs voice agents. The bot stores Tele
    ```
 
 6. Fill in `.env` with local/test values:
-   - `TELEGRAM_BOT_TOKEN`
-   - `ELEVENLABS_API_KEY`
+   - `N8N_HOST`
+   - `N8N_PORT`
+   - `N8N_PROTOCOL`
    - `WEBHOOK_URL`
+   - `N8N_ENCRYPTION_KEY`
+   - `MYSQL_ROOT_PASSWORD`
    - `MYSQL_DATABASE`
    - `MYSQL_USER`
    - `MYSQL_PASSWORD`
+   - `MYSQL_PORT`
+   - `TELEGRAM_BOT_TOKEN`
+   - `ELEVENLABS_API_KEY`
+   - `ELEVENLABS_AGENT_ID`
+   - `TELEGRAM_USER_ID`
+   - `TELEGRAM_USERNAME`
+   - `TELEGRAM_FIRST_NAME`
 
 7. Start local services:
 
@@ -70,7 +80,7 @@ n8n-based Telegram bot for managing ElevenLabs voice agents. The bot stores Tele
 
 15. Export the final n8n workflow JSON before submission.
 
-MySQL is available locally on `127.0.0.1:3307`.
+MySQL is available locally on `127.0.0.1:${MYSQL_PORT}` using the value from `.env`.
 
 ## Local Credentials
 
@@ -79,7 +89,7 @@ MySQL is available locally on `127.0.0.1:3307`.
 - Password: `app_password`
 - Host from host machine: `127.0.0.1`
 - Host from n8n container: `mysql`
-- Port from host machine: `3307`
+- Port from host machine: value of `MYSQL_PORT` in `.env`, default template value `3307`
 - Port from n8n container: `3306`
 
 ## Database
