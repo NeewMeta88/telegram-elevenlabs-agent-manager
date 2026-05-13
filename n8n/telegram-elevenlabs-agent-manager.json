@@ -473,91 +473,22 @@
     },
     {
       "parameters": {
-        "chatId": "={{ $('Build Context').item.json.chat_id }}",
-        "text": "Telegram ElevenLabs Agent Manager\n\nChoose an action:",
-        "additionalFields": {
-          "appendAttribution": false
-        },
-        "replyMarkup": "inlineKeyboard",
-        "inlineKeyboard": {
-          "rows": [
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "My agents",
-                    "additionalFields": {
-                      "callback_data": "agents:list"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Current agent",
-                    "additionalFields": {
-                      "callback_data": "agent:current"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update prompt",
-                    "additionalFields": {
-                      "callback_data": "edit:prompt"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update welcome message",
-                    "additionalFields": {
-                      "callback_data": "edit:welcome"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update knowledge base",
-                    "additionalFields": {
-                      "callback_data": "edit:knowledge"
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: \"Telegram ElevenLabs Agent Manager\\n\\nChoose an action:\", reply_markup: {\"inline_keyboard\":[[{\"text\":\"My agents\",\"callback_data\":\"agents:list\"}],[{\"text\":\"Current agent\",\"callback_data\":\"agent:current\"}],[{\"text\":\"Update prompt\",\"callback_data\":\"edit:prompt\"}],[{\"text\":\"Update welcome message\",\"callback_data\":\"edit:welcome\"}],[{\"text\":\"Update knowledge base\",\"callback_data\":\"edit:knowledge\"}]]} }) }}",
+        "options": {}
       },
       "id": "3bd35b4e-bb2c-b376-e678-9b504f07b437",
       "name": "Send Main Menu",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         2300,
         -600
-      ],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account-placeholder",
-          "name": "Telegram account"
-        }
-      }
+      ]
     },
     {
       "parameters": {
@@ -581,91 +512,22 @@
     },
     {
       "parameters": {
-        "chatId": "={{ $('Build Context').item.json.chat_id }}",
-        "text": "Current action cancelled.",
-        "additionalFields": {
-          "appendAttribution": false
-        },
-        "replyMarkup": "inlineKeyboard",
-        "inlineKeyboard": {
-          "rows": [
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "My agents",
-                    "additionalFields": {
-                      "callback_data": "agents:list"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Current agent",
-                    "additionalFields": {
-                      "callback_data": "agent:current"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update prompt",
-                    "additionalFields": {
-                      "callback_data": "edit:prompt"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update welcome message",
-                    "additionalFields": {
-                      "callback_data": "edit:welcome"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update knowledge base",
-                    "additionalFields": {
-                      "callback_data": "edit:knowledge"
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: \"Current action cancelled.\", reply_markup: {\"inline_keyboard\":[[{\"text\":\"My agents\",\"callback_data\":\"agents:list\"}],[{\"text\":\"Current agent\",\"callback_data\":\"agent:current\"}],[{\"text\":\"Update prompt\",\"callback_data\":\"edit:prompt\"}],[{\"text\":\"Update welcome message\",\"callback_data\":\"edit:welcome\"}],[{\"text\":\"Update knowledge base\",\"callback_data\":\"edit:knowledge\"}]]} }) }}",
+        "options": {}
       },
       "id": "f1a95539-1961-be49-8aff-18c43d40b96b",
       "name": "Send Cancelled",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         2300,
         -360
-      ],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account-placeholder",
-          "name": "Telegram account"
-        }
-      }
+      ]
     },
     {
       "parameters": {
@@ -703,28 +565,22 @@
     },
     {
       "parameters": {
-        "chatId": "={{ $('Build Context').item.json.chat_id }}",
-        "text": "={{ $json.text }}",
-        "additionalFields": {
-          "appendAttribution": false
-        },
-        "replyMarkup": "inlineKeyboard",
-        "inlineKeyboard": "={{ { rows: ($json.reply_markup?.inline_keyboard || []).map(row => ({ row: { buttons: row.map(button => ({ text: button.text, additionalFields: { callback_data: button.callback_data } })) } })) } }}"
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: $json.text, reply_markup: $json.reply_markup }) }}",
+        "options": {}
       },
       "id": "8425217f-874b-69bd-5e63-e553093578c5",
       "name": "Send Agents List",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         2160,
         -120
-      ],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account-placeholder",
-          "name": "Telegram account"
-        }
-      }
+      ]
     },
     {
       "parameters": {
@@ -795,28 +651,22 @@
     },
     {
       "parameters": {
-        "chatId": "={{ $('Build Context').item.json.chat_id }}",
-        "text": "={{ $json.text }}",
-        "additionalFields": {
-          "appendAttribution": false
-        },
-        "replyMarkup": "inlineKeyboard",
-        "inlineKeyboard": "={{ { rows: ($json.reply_markup?.inline_keyboard || []).map(row => ({ row: { buttons: row.map(button => ({ text: button.text, additionalFields: { callback_data: button.callback_data } })) } })) } }}"
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: $json.text, reply_markup: $json.reply_markup }) }}",
+        "options": {}
       },
       "id": "841f193d-0619-1a04-cc4a-ab0043bdd742",
       "name": "Send Selected Agent Menu",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         2680,
         120
-      ],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account-placeholder",
-          "name": "Telegram account"
-        }
-      }
+      ]
     },
     {
       "parameters": {
@@ -854,28 +704,22 @@
     },
     {
       "parameters": {
-        "chatId": "={{ $('Build Context').item.json.chat_id }}",
-        "text": "={{ $json.text }}",
-        "additionalFields": {
-          "appendAttribution": false
-        },
-        "replyMarkup": "inlineKeyboard",
-        "inlineKeyboard": "={{ { rows: ($json.reply_markup?.inline_keyboard || []).map(row => ({ row: { buttons: row.map(button => ({ text: button.text, additionalFields: { callback_data: button.callback_data } })) } })) } }}"
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: $json.text, reply_markup: $json.reply_markup }) }}",
+        "options": {}
       },
       "id": "a22f1a44-c76b-fac0-e626-bc9353196c61",
       "name": "Send Current Agent",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         2160,
         360
-      ],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account-placeholder",
-          "name": "Telegram account"
-        }
-      }
+      ]
     },
     {
       "parameters": {
@@ -933,28 +777,22 @@
     },
     {
       "parameters": {
-        "chatId": "={{ $('Build Context').item.json.chat_id }}",
-        "text": "={{ $json.text }}",
-        "additionalFields": {
-          "appendAttribution": false
-        },
-        "replyMarkup": "inlineKeyboard",
-        "inlineKeyboard": "={{ { rows: ($json.reply_markup?.inline_keyboard || []).map(row => ({ row: { buttons: row.map(button => ({ text: button.text, additionalFields: { callback_data: button.callback_data } })) } })) } }}"
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: $json.text, reply_markup: $json.reply_markup }) }}",
+        "options": {}
       },
       "id": "4aac77a4-df77-0850-e348-47565e99f1d0",
       "name": "Send Ask Prompt",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         2420,
         600
-      ],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account-placeholder",
-          "name": "Telegram account"
-        }
-      }
+      ]
     },
     {
       "parameters": {
@@ -1114,103 +952,22 @@
     },
     {
       "parameters": {
-        "chatId": "={{ $('Build Context').item.json.chat_id }}",
-        "text": "Agent prompt updated successfully.",
-        "additionalFields": {
-          "appendAttribution": false
-        },
-        "replyMarkup": "inlineKeyboard",
-        "inlineKeyboard": {
-          "rows": [
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Current agent",
-                    "additionalFields": {
-                      "callback_data": "agent:current"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update prompt",
-                    "additionalFields": {
-                      "callback_data": "edit:prompt"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update welcome message",
-                    "additionalFields": {
-                      "callback_data": "edit:welcome"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update knowledge base",
-                    "additionalFields": {
-                      "callback_data": "edit:knowledge"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "My agents",
-                    "additionalFields": {
-                      "callback_data": "agents:list"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Menu",
-                    "additionalFields": {
-                      "callback_data": "menu"
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: \"Agent prompt updated successfully.\", reply_markup: {\"inline_keyboard\":[[{\"text\":\"Current agent\",\"callback_data\":\"agent:current\"}],[{\"text\":\"Update prompt\",\"callback_data\":\"edit:prompt\"}],[{\"text\":\"Update welcome message\",\"callback_data\":\"edit:welcome\"}],[{\"text\":\"Update knowledge base\",\"callback_data\":\"edit:knowledge\"}],[{\"text\":\"My agents\",\"callback_data\":\"agents:list\"}],[{\"text\":\"Menu\",\"callback_data\":\"menu\"}]]} }) }}",
+        "options": {}
       },
       "id": "e57be331-0ba6-676f-9a40-ca9d769be684",
       "name": "Send Prompt Updated",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         2300,
         1020
-      ],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account-placeholder",
-          "name": "Telegram account"
-        }
-      }
+      ]
     },
     {
       "parameters": {
@@ -1268,28 +1025,22 @@
     },
     {
       "parameters": {
-        "chatId": "={{ $('Build Context').item.json.chat_id }}",
-        "text": "={{ $json.text }}",
-        "additionalFields": {
-          "appendAttribution": false
-        },
-        "replyMarkup": "inlineKeyboard",
-        "inlineKeyboard": "={{ { rows: ($json.reply_markup?.inline_keyboard || []).map(row => ({ row: { buttons: row.map(button => ({ text: button.text, additionalFields: { callback_data: button.callback_data } })) } })) } }}"
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: $json.text, reply_markup: $json.reply_markup }) }}",
+        "options": {}
       },
       "id": "6ecea3ed-572b-827f-d9d3-9bc0ab01bbfe",
       "name": "Send Ask Welcome",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         2420,
         840
-      ],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account-placeholder",
-          "name": "Telegram account"
-        }
-      }
+      ]
     },
     {
       "parameters": {
@@ -1449,103 +1200,22 @@
     },
     {
       "parameters": {
-        "chatId": "={{ $('Build Context').item.json.chat_id }}",
-        "text": "Agent welcome message updated successfully.",
-        "additionalFields": {
-          "appendAttribution": false
-        },
-        "replyMarkup": "inlineKeyboard",
-        "inlineKeyboard": {
-          "rows": [
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Current agent",
-                    "additionalFields": {
-                      "callback_data": "agent:current"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update prompt",
-                    "additionalFields": {
-                      "callback_data": "edit:prompt"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update welcome message",
-                    "additionalFields": {
-                      "callback_data": "edit:welcome"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update knowledge base",
-                    "additionalFields": {
-                      "callback_data": "edit:knowledge"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "My agents",
-                    "additionalFields": {
-                      "callback_data": "agents:list"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Menu",
-                    "additionalFields": {
-                      "callback_data": "menu"
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: \"Agent welcome message updated successfully.\", reply_markup: {\"inline_keyboard\":[[{\"text\":\"Current agent\",\"callback_data\":\"agent:current\"}],[{\"text\":\"Update prompt\",\"callback_data\":\"edit:prompt\"}],[{\"text\":\"Update welcome message\",\"callback_data\":\"edit:welcome\"}],[{\"text\":\"Update knowledge base\",\"callback_data\":\"edit:knowledge\"}],[{\"text\":\"My agents\",\"callback_data\":\"agents:list\"}],[{\"text\":\"Menu\",\"callback_data\":\"menu\"}]]} }) }}",
+        "options": {}
       },
       "id": "aa17cfac-ee5b-4dd7-666e-3f227f6ec844",
       "name": "Send Welcome Updated",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         2300,
         1380
-      ],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account-placeholder",
-          "name": "Telegram account"
-        }
-      }
+      ]
     },
     {
       "parameters": {
@@ -1603,28 +1273,22 @@
     },
     {
       "parameters": {
-        "chatId": "={{ $('Build Context').item.json.chat_id }}",
-        "text": "={{ $json.text }}",
-        "additionalFields": {
-          "appendAttribution": false
-        },
-        "replyMarkup": "inlineKeyboard",
-        "inlineKeyboard": "={{ { rows: ($json.reply_markup?.inline_keyboard || []).map(row => ({ row: { buttons: row.map(button => ({ text: button.text, additionalFields: { callback_data: button.callback_data } })) } })) } }}"
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: $json.text, reply_markup: $json.reply_markup }) }}",
+        "options": {}
       },
       "id": "70689bef-52c7-a5a8-61ed-3493423a61e1",
       "name": "Send Ask Knowledge",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         2420,
         1680
-      ],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account-placeholder",
-          "name": "Telegram account"
-        }
-      }
+      ]
     },
     {
       "parameters": {
@@ -1816,243 +1480,60 @@
     },
     {
       "parameters": {
-        "chatId": "={{ $('Build Context').item.json.chat_id }}",
-        "text": "Agent knowledge base updated successfully.",
-        "additionalFields": {
-          "appendAttribution": false
-        },
-        "replyMarkup": "inlineKeyboard",
-        "inlineKeyboard": {
-          "rows": [
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Current agent",
-                    "additionalFields": {
-                      "callback_data": "agent:current"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update prompt",
-                    "additionalFields": {
-                      "callback_data": "edit:prompt"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update welcome message",
-                    "additionalFields": {
-                      "callback_data": "edit:welcome"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update knowledge base",
-                    "additionalFields": {
-                      "callback_data": "edit:knowledge"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "My agents",
-                    "additionalFields": {
-                      "callback_data": "agents:list"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Menu",
-                    "additionalFields": {
-                      "callback_data": "menu"
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: \"Agent knowledge base updated successfully.\", reply_markup: {\"inline_keyboard\":[[{\"text\":\"Current agent\",\"callback_data\":\"agent:current\"}],[{\"text\":\"Update prompt\",\"callback_data\":\"edit:prompt\"}],[{\"text\":\"Update welcome message\",\"callback_data\":\"edit:welcome\"}],[{\"text\":\"Update knowledge base\",\"callback_data\":\"edit:knowledge\"}],[{\"text\":\"My agents\",\"callback_data\":\"agents:list\"}],[{\"text\":\"Menu\",\"callback_data\":\"menu\"}]]} }) }}",
+        "options": {}
       },
       "id": "1f32f7d5-9fc4-ba23-af67-5b4d8919194a",
       "name": "Send Knowledge Updated",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         2300,
         1860
-      ],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account-placeholder",
-          "name": "Telegram account"
-        }
-      }
+      ]
     },
     {
       "parameters": {
-        "chatId": "={{ $('Build Context').item.json.chat_id }}",
-        "text": "Please select an agent first.",
-        "additionalFields": {
-          "appendAttribution": false
-        },
-        "replyMarkup": "inlineKeyboard",
-        "inlineKeyboard": {
-          "rows": [
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "My agents",
-                    "additionalFields": {
-                      "callback_data": "agents:list"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Menu",
-                    "additionalFields": {
-                      "callback_data": "menu"
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: \"Please select an agent first.\", reply_markup: {\"inline_keyboard\":[[{\"text\":\"My agents\",\"callback_data\":\"agents:list\"}],[{\"text\":\"Menu\",\"callback_data\":\"menu\"}]]} }) }}",
+        "options": {}
       },
       "id": "98362987-e25a-fc31-d159-9c9b7bbae4a9",
       "name": "Send Please Select Agent",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         2300,
         2070
-      ],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account-placeholder",
-          "name": "Telegram account"
-        }
-      }
+      ]
     },
     {
       "parameters": {
-        "chatId": "={{ $('Build Context').item.json.chat_id }}",
-        "text": "Unknown command. Use /menu to continue.",
-        "additionalFields": {
-          "appendAttribution": false
-        },
-        "replyMarkup": "inlineKeyboard",
-        "inlineKeyboard": {
-          "rows": [
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "My agents",
-                    "additionalFields": {
-                      "callback_data": "agents:list"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Current agent",
-                    "additionalFields": {
-                      "callback_data": "agent:current"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update prompt",
-                    "additionalFields": {
-                      "callback_data": "edit:prompt"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update welcome message",
-                    "additionalFields": {
-                      "callback_data": "edit:welcome"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "Update knowledge base",
-                    "additionalFields": {
-                      "callback_data": "edit:knowledge"
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: \"Unknown command. Use /menu to continue.\", reply_markup: {\"inline_keyboard\":[[{\"text\":\"My agents\",\"callback_data\":\"agents:list\"}],[{\"text\":\"Current agent\",\"callback_data\":\"agent:current\"}],[{\"text\":\"Update prompt\",\"callback_data\":\"edit:prompt\"}],[{\"text\":\"Update welcome message\",\"callback_data\":\"edit:welcome\"}],[{\"text\":\"Update knowledge base\",\"callback_data\":\"edit:knowledge\"}]]} }) }}",
+        "options": {}
       },
       "id": "be134fc7-2fc4-0777-9c1b-5766267f2c80",
       "name": "Send Unknown Command",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
         2300,
         2220
-      ],
-      "credentials": {
-        "telegramApi": {
-          "id": "telegram-account-placeholder",
-          "name": "Telegram account"
-        }
-      }
+      ]
     }
   ],
   "pinData": {},
