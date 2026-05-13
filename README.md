@@ -35,6 +35,7 @@ n8n-based Telegram bot for managing ElevenLabs voice agents. The bot stores Tele
    - `N8N_PROTOCOL`
    - `WEBHOOK_URL`
    - `N8N_ENCRYPTION_KEY`
+   - `GENERIC_TIMEZONE`
    - `MYSQL_ROOT_PASSWORD`
    - `MYSQL_DATABASE`
    - `MYSQL_USER`

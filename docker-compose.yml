@@ -3,13 +3,15 @@ services:
     image: mysql:8.0
     container_name: elevenlabs-agents-mysql
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password_change_me}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-elevenlabs_agents_db}
-      MYSQL_USER: ${MYSQL_USER:-app_user}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-app_password}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - "3307:3306"
+      - "${MYSQL_PORT}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
       - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
@@ -23,24 +25,22 @@ services:
     image: n8nio/n8n:latest
     container_name: elevenlabs-agents-n8n
     restart: unless-stopped
+    env_file:
+      - .env
     depends_on:
       mysql:
         condition: service_healthy
     environment:
-      N8N_HOST: 0.0.0.0
-      N8N_PORT: 5678
-      N8N_PROTOCOL: http
-      WEBHOOK_URL: ${WEBHOOK_URL:-http://localhost:5678/}
-      DB_TYPE: mysqldb
-      DB_MYSQLDB_HOST: mysql
-      DB_MYSQLDB_PORT: 3306
-      DB_MYSQLDB_DATABASE: ${MYSQL_DATABASE:-elevenlabs_agents_db}
-      DB_MYSQLDB_USER: ${MYSQL_USER:-app_user}
-      DB_MYSQLDB_PASSWORD: ${MYSQL_PASSWORD:-app_password}
-      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-replace_me}
-      ELEVENLABS_API_KEY: ${ELEVENLABS_API_KEY:-replace_me}
+      N8N_HOST: ${N8N_HOST}
+      N8N_PORT: ${N8N_PORT}
+      N8N_PROTOCOL: ${N8N_PROTOCOL}
+      WEBHOOK_URL: ${WEBHOOK_URL}
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY}
+      GENERIC_TIMEZONE: ${GENERIC_TIMEZONE}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      ELEVENLABS_API_KEY: ${ELEVENLABS_API_KEY}
     ports:
-      - "5678:5678"
+      - "${N8N_PORT}:5678"
     volumes:
       - n8n_data:/home/node/.n8n
 
