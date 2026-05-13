@@ -1,5 +1,8 @@
 USE elevenlabs_agents_db;
 
+SET @telegram_id_placeholder = 123456789;
+SET @elevenlabs_agent_id_placeholder = 'elevenlabs_agent_id_placeholder';
+
 INSERT INTO telegram_users (
   telegram_id,
   username,
@@ -7,11 +10,17 @@ INSERT INTO telegram_users (
   last_name,
   state
 ) VALUES (
-  123456789,
+  @telegram_id_placeholder,
   'telegram_username_placeholder',
   'FirstNamePlaceholder',
   'LastNamePlaceholder',
   'idle'
+);
+
+SET @telegram_user_db_id = (
+  SELECT id
+  FROM telegram_users
+  WHERE telegram_id = @telegram_id_placeholder
 );
 
 INSERT INTO elevenlabs_agents (
@@ -21,16 +30,23 @@ INSERT INTO elevenlabs_agents (
   current_prompt,
   welcome_message
 ) VALUES (
-  1,
-  'elevenlabs_agent_id_placeholder',
+  @telegram_user_db_id,
+  @elevenlabs_agent_id_placeholder,
   'Example Agent',
   'Prompt placeholder for the selected ElevenLabs voice agent.',
   'Welcome message placeholder.'
 );
 
+SET @agent_db_id = (
+  SELECT id
+  FROM elevenlabs_agents
+  WHERE user_id = @telegram_user_db_id
+    AND elevenlabs_agent_id = @elevenlabs_agent_id_placeholder
+);
+
 UPDATE telegram_users
-SET selected_agent_id = 1
-WHERE id = 1;
+SET selected_agent_id = @agent_db_id
+WHERE telegram_id = @telegram_id_placeholder;
 
 INSERT INTO agent_knowledge_documents (
   agent_id,
@@ -40,7 +56,7 @@ INSERT INTO agent_knowledge_documents (
   source_url,
   status
 ) VALUES (
-  1,
+  @agent_db_id,
   'elevenlabs_document_id_placeholder',
   'Example Knowledge Document',
   'url',
@@ -56,8 +72,8 @@ INSERT INTO agent_update_logs (
   new_value,
   status
 ) VALUES (
-  1,
-  1,
+  @agent_db_id,
+  @telegram_user_db_id,
   'prompt_update',
   'Previous prompt placeholder.',
   'Prompt placeholder for the selected ElevenLabs voice agent.',

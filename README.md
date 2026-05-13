@@ -35,6 +35,7 @@ n8n-based Telegram bot for managing ElevenLabs voice agents. The bot stores Tele
    - `N8N_PROTOCOL`
    - `WEBHOOK_URL`
    - `N8N_ENCRYPTION_KEY`
+   - `N8N_BLOCK_ENV_ACCESS_IN_NODE=false`
    - `GENERIC_TIMEZONE`
    - `MYSQL_ROOT_PASSWORD`
    - `MYSQL_DATABASE`
@@ -48,6 +49,16 @@ n8n-based Telegram bot for managing ElevenLabs voice agents. The bot stores Tele
    - `TELEGRAM_USERNAME`
    - `TELEGRAM_FIRST_NAME`
 
+   The imported workflow reads Telegram and ElevenLabs secrets from environment variables in HTTP Request nodes:
+   - `{{$env.TELEGRAM_BOT_TOKEN}}`
+   - `{{$env.ELEVENLABS_API_KEY}}`
+
+   For local self-hosted n8n, environment variable access in nodes must be enabled:
+
+   ```bash
+   N8N_BLOCK_ENV_ACCESS_IN_NODE=false
+   ```
+
 7. Start local services:
 
    ```bash
@@ -59,7 +70,8 @@ n8n-based Telegram bot for managing ElevenLabs voice agents. The bot stores Tele
 9. Create n8n credentials:
    - Telegram Bot API: use the token from BotFather.
    - MySQL: use host `mysql`, port `3306`, database `elevenlabs_agents_db`, user `app_user`, password `app_password`.
-   - ElevenLabs: use an HTTP Request credential or add the API key as a request header, for example `xi-api-key: <ELEVENLABS_API_KEY>`.
+
+   The workflow sends Telegram replies and ElevenLabs API requests through HTTP Request nodes using environment variables. Do not hardcode tokens in workflow nodes.
 
 10. Expose local n8n with ngrok:
 
@@ -107,7 +119,8 @@ MySQL is available locally on `127.0.0.1:${MYSQL_PORT}` using the value from `.e
 ## Security
 
 - Do not commit `.env`, real Telegram bot tokens, ElevenLabs API keys, ngrok URLs, or production credentials.
-- Use n8n credentials for secrets instead of hardcoding tokens in workflow nodes.
+- The workflow uses `{{$env.TELEGRAM_BOT_TOKEN}}` and `{{$env.ELEVENLABS_API_KEY}}` in HTTP Request nodes. Keep these values in local environment files only.
+- Use the n8n MySQL credential for database access from workflow nodes.
 - Keep `database/seed.example.sql` placeholder-only. Create a local untracked seed file for real test IDs if needed.
 - Rotate any token that is accidentally committed or shared.
 - The default MySQL credentials are for local technical-test use only and should not be reused in production.
@@ -117,7 +130,7 @@ MySQL is available locally on `127.0.0.1:${MYSQL_PORT}` using the value from `.e
 MySQL connection issues:
 
 - From n8n, use MySQL host `mysql` and port `3306`.
-- From the host machine, use `127.0.0.1` and port `3307`.
+- From the host machine, use `127.0.0.1` and the `MYSQL_PORT` value from `.env`.
 - If schema changes do not appear, remove the MySQL volume and start again because init scripts run only on first database creation.
 
 Webhook issues:
@@ -136,21 +149,22 @@ Telegram callback issues:
 
 ## Final Submission Checklist
 
-- `docker-compose.yml` starts MySQL 8 and n8n.
-- `.env.example` contains placeholders only.
+- `n8n/telegram-elevenlabs-agent-manager.json` imports into n8n.
 - `database/schema.sql` creates all required tables, indexes, and foreign keys.
-- `database/seed.example.sql` contains placeholder-only sample data.
-- n8n workflow JSON is exported.
+- Workflow HTTP Request nodes read `TELEGRAM_BOT_TOKEN` and `ELEVENLABS_API_KEY` from environment variables.
+- Local self-hosted n8n has `N8N_BLOCK_ENV_ACCESS_IN_NODE=false`.
 - README setup steps are complete and reproducible.
 - No real secrets are committed.
 
 ## Final Submission Files
 
-Submit these files for the technical test:
+Required submission files:
+
+- `n8n/telegram-elevenlabs-agent-manager.json`
+- `database/schema.sql`
+
+Additional reproducibility files:
 
 - `docker-compose.yml`
-- `.gitignore`
 - `.env.example`
-- `database/schema.sql`
 - `database/seed.example.sql`
-- `README.md`

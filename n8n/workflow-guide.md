@@ -1,12 +1,14 @@
 # Telegram ElevenLabs Agent Manager Workflow
 
-This guide matches the importable workflow JSON in `n8n/telegram-elevenlabs-agent-manager.json`. The capitalized export file is kept in sync for compatibility with the original local n8n export.
+This guide matches the importable workflow JSON in `n8n/telegram-elevenlabs-agent-manager.json`.
 
 ## Credentials
 
-- Telegram credential name: `Telegram account`
+- Telegram trigger credential name: `Telegram account`
 - MySQL credential name: `MySQL account`
+- Telegram sendMessage HTTP Request nodes use `{{ $env.TELEGRAM_BOT_TOKEN }}` in the Telegram Bot API URL.
 - ElevenLabs API key: HTTP Request nodes set `xi-api-key` to `{{ $env.ELEVENLABS_API_KEY }}`
+- Local self-hosted n8n must allow node access to environment variables with `N8N_BLOCK_ENV_ACCESS_IN_NODE=false`.
 
 No Telegram token, ElevenLabs API key, or MySQL password is stored in the workflow JSON.
 
