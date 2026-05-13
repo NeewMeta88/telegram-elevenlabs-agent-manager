@@ -455,6 +455,174 @@
               },
               "renameOutput": true,
               "outputKey": "receive-knowledge"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "241c4804-9ff8-5081-c136-2f534f34b80f",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "/add_agent",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "add-agent-command"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "411b71de-ea9b-d26e-afe3-6fd28307beaa",
+                    "leftValue": "={{ $json.callback_data }}",
+                    "rightValue": "agent:add",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "add-agent-callback"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "38bf1c10-3ab3-89b0-728c-d0308c409371",
+                    "leftValue": "={{ $json.state === \"waiting_add_agent_id\" && $json.text.length > 0 }}",
+                    "rightValue": true,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "receive-add-agent-id"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a4723c4a-4b44-6f09-5bf0-e3016deb9f8e",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "/remove_agent",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "remove-agent-command"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "1792a739-dd2f-fca1-baeb-65725c19363e",
+                    "leftValue": "={{ $json.callback_data }}",
+                    "rightValue": "agent:remove:list",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "remove-agent-list"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "3cfa5134-4126-2e7d-58cf-9a03fe2b021f",
+                    "leftValue": "={{ $json.callback_data.startsWith(\"agent:remove:confirm:\") }}",
+                    "rightValue": true,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "remove-agent-confirm"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e2e725e0-c117-4a05-e78b-cf005926ebb5",
+                    "leftValue": "={{ $json.callback_data.startsWith(\"agent:remove:do:\") }}",
+                    "rightValue": true,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "remove-agent-do"
             }
           ]
         },
@@ -478,7 +646,7 @@
         "sendBody": true,
         "contentType": "json",
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: \"Telegram ElevenLabs Agent Manager\\n\\nChoose an action:\", reply_markup: {\"inline_keyboard\":[[{\"text\":\"My agents\",\"callback_data\":\"agents:list\"}],[{\"text\":\"Current agent\",\"callback_data\":\"agent:current\"}],[{\"text\":\"Update prompt\",\"callback_data\":\"edit:prompt\"}],[{\"text\":\"Update welcome message\",\"callback_data\":\"edit:welcome\"}],[{\"text\":\"Update knowledge base\",\"callback_data\":\"edit:knowledge\"}]]} }) }}",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: 'Telegram ElevenLabs Agent Manager\\n\\nChoose an action:', reply_markup: { inline_keyboard: [[{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Add new agent', callback_data: 'agent:add' }], [{ text: 'Remove agent', callback_data: 'agent:remove:list' }], [{ text: 'Current agent', callback_data: 'agent:current' }], [{ text: 'Update prompt', callback_data: 'edit:prompt' }], [{ text: 'Update welcome message', callback_data: 'edit:welcome' }], [{ text: 'Update knowledge base', callback_data: 'edit:knowledge' }]] } }) }}",
         "options": {}
       },
       "id": "3bd35b4e-bb2c-b376-e678-9b504f07b437",
@@ -517,7 +685,7 @@
         "sendBody": true,
         "contentType": "json",
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: \"Current action cancelled.\", reply_markup: {\"inline_keyboard\":[[{\"text\":\"My agents\",\"callback_data\":\"agents:list\"}],[{\"text\":\"Current agent\",\"callback_data\":\"agent:current\"}],[{\"text\":\"Update prompt\",\"callback_data\":\"edit:prompt\"}],[{\"text\":\"Update welcome message\",\"callback_data\":\"edit:welcome\"}],[{\"text\":\"Update knowledge base\",\"callback_data\":\"edit:knowledge\"}]]} }) }}",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: 'Current action cancelled.', reply_markup: { inline_keyboard: [[{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Add new agent', callback_data: 'agent:add' }], [{ text: 'Remove agent', callback_data: 'agent:remove:list' }], [{ text: 'Current agent', callback_data: 'agent:current' }], [{ text: 'Update prompt', callback_data: 'edit:prompt' }], [{ text: 'Update welcome message', callback_data: 'edit:welcome' }], [{ text: 'Update knowledge base', callback_data: 'edit:knowledge' }]] } }) }}",
         "options": {}
       },
       "id": "f1a95539-1961-be49-8aff-18c43d40b96b",
@@ -532,7 +700,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT id, display_name, elevenlabs_agent_id\nFROM elevenlabs_agents\nWHERE user_id = {{ $json.user_id }}\nORDER BY display_name ASC;"
+        "query": "SELECT id, display_name, elevenlabs_agent_id\nFROM elevenlabs_agents\nWHERE user_id = {{ $json.user_id }}\n  AND is_active = TRUE\nORDER BY display_name ASC;"
       },
       "id": "9d8d729f-4e0b-d613-5e5b-2b1bcbdb636e",
       "name": "Load User Agents",
@@ -598,7 +766,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT id, display_name, elevenlabs_agent_id\nFROM elevenlabs_agents\nWHERE id = {{ $json.agent_id_from_callback }}\n  AND user_id = {{ $json.user_id }}\nLIMIT 1;"
+        "query": "SELECT id, display_name, elevenlabs_agent_id\nFROM elevenlabs_agents\nWHERE id = {{ $json.agent_id_from_callback }}\n  AND user_id = {{ $json.user_id }}\n  AND is_active = TRUE\nLIMIT 1;"
       },
       "id": "26233019-ae9f-41bb-125b-53597f0ed603",
       "name": "Verify Selected Agent Owner",
@@ -671,7 +839,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT ea.id, ea.display_name, ea.elevenlabs_agent_id\nFROM elevenlabs_agents ea\nJOIN telegram_users tu ON tu.selected_agent_id = ea.id\nWHERE tu.id = {{ $json.user_id }}\n  AND ea.user_id = {{ $json.user_id }}\nLIMIT 1;"
+        "query": "SELECT ea.id, ea.display_name, ea.elevenlabs_agent_id\nFROM elevenlabs_agents ea\nJOIN telegram_users tu ON tu.selected_agent_id = ea.id\nWHERE tu.id = {{ $json.user_id }}\n  AND ea.user_id = {{ $json.user_id }}\n  AND ea.is_active = TRUE\nLIMIT 1;"
       },
       "id": "61ddd32f-0e12-ae4e-7cb5-845ddf141e19",
       "name": "Load Current Agent",
@@ -724,7 +892,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT ea.id, ea.display_name, ea.elevenlabs_agent_id\nFROM elevenlabs_agents ea\nJOIN telegram_users tu ON tu.selected_agent_id = ea.id\nWHERE tu.id = {{ $json.user_id }}\n  AND ea.user_id = {{ $json.user_id }}\nLIMIT 1;"
+        "query": "SELECT ea.id, ea.display_name, ea.elevenlabs_agent_id\nFROM elevenlabs_agents ea\nJOIN telegram_users tu ON tu.selected_agent_id = ea.id\nWHERE tu.id = {{ $json.user_id }}\n  AND ea.user_id = {{ $json.user_id }}\n  AND ea.is_active = TRUE\nLIMIT 1;"
       },
       "id": "10b19d40-c7d6-dd8b-3428-9bebfa4c0bbb",
       "name": "Load Selected Agent For Prompt Edit",
@@ -797,7 +965,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT ea.id, ea.display_name, ea.elevenlabs_agent_id, ea.current_prompt\nFROM elevenlabs_agents ea\nJOIN telegram_users tu ON tu.selected_agent_id = ea.id\nWHERE tu.id = {{ $json.user_id }}\n  AND ea.user_id = {{ $json.user_id }}\nLIMIT 1;"
+        "query": "SELECT ea.id, ea.display_name, ea.elevenlabs_agent_id, ea.current_prompt\nFROM elevenlabs_agents ea\nJOIN telegram_users tu ON tu.selected_agent_id = ea.id\nWHERE tu.id = {{ $json.user_id }}\n  AND ea.user_id = {{ $json.user_id }}\n  AND ea.is_active = TRUE\nLIMIT 1;"
       },
       "id": "be7b3752-e3c7-f54a-4c09-bfda15244656",
       "name": "Load Selected Agent For Prompt Update",
@@ -893,7 +1061,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "UPDATE elevenlabs_agents\nSET current_prompt = {{ JSON.stringify($('Build Context').item.json.text) }}\nWHERE id = {{ $('Load Selected Agent For Prompt Update').first().json.id }}\n  AND user_id = {{ $('Build Context').item.json.user_id }};"
+        "query": "UPDATE elevenlabs_agents\nSET current_prompt = {{ JSON.stringify($('Build Context').item.json.text) }}\nWHERE id = {{ $('Load Selected Agent For Prompt Update').first().json.id }}\n  AND user_id = {{ $('Build Context').item.json.user_id }}\n  AND is_active = TRUE;"
       },
       "id": "090dd3ae-297c-a2d3-12a9-484497d5a186",
       "name": "Save Prompt Locally",
@@ -957,7 +1125,7 @@
         "sendBody": true,
         "contentType": "json",
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: \"Agent prompt updated successfully.\", reply_markup: {\"inline_keyboard\":[[{\"text\":\"Current agent\",\"callback_data\":\"agent:current\"}],[{\"text\":\"Update prompt\",\"callback_data\":\"edit:prompt\"}],[{\"text\":\"Update welcome message\",\"callback_data\":\"edit:welcome\"}],[{\"text\":\"Update knowledge base\",\"callback_data\":\"edit:knowledge\"}],[{\"text\":\"My agents\",\"callback_data\":\"agents:list\"}],[{\"text\":\"Menu\",\"callback_data\":\"menu\"}]]} }) }}",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: 'Agent prompt updated successfully.', reply_markup: { inline_keyboard: [[{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Add new agent', callback_data: 'agent:add' }], [{ text: 'Remove agent', callback_data: 'agent:remove:list' }], [{ text: 'Current agent', callback_data: 'agent:current' }], [{ text: 'Update prompt', callback_data: 'edit:prompt' }], [{ text: 'Update welcome message', callback_data: 'edit:welcome' }], [{ text: 'Update knowledge base', callback_data: 'edit:knowledge' }]] } }) }}",
         "options": {}
       },
       "id": "e57be331-0ba6-676f-9a40-ca9d769be684",
@@ -972,7 +1140,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT ea.id, ea.display_name, ea.elevenlabs_agent_id\nFROM elevenlabs_agents ea\nJOIN telegram_users tu ON tu.selected_agent_id = ea.id\nWHERE tu.id = {{ $json.user_id }}\n  AND ea.user_id = {{ $json.user_id }}\nLIMIT 1;"
+        "query": "SELECT ea.id, ea.display_name, ea.elevenlabs_agent_id\nFROM elevenlabs_agents ea\nJOIN telegram_users tu ON tu.selected_agent_id = ea.id\nWHERE tu.id = {{ $json.user_id }}\n  AND ea.user_id = {{ $json.user_id }}\n  AND ea.is_active = TRUE\nLIMIT 1;"
       },
       "id": "2358b51f-c3c1-f230-619f-e8571fb63e4e",
       "name": "Load Selected Agent For Welcome Edit",
@@ -1045,7 +1213,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT ea.id, ea.display_name, ea.elevenlabs_agent_id, ea.welcome_message\nFROM elevenlabs_agents ea\nJOIN telegram_users tu ON tu.selected_agent_id = ea.id\nWHERE tu.id = {{ $json.user_id }}\n  AND ea.user_id = {{ $json.user_id }}\nLIMIT 1;"
+        "query": "SELECT ea.id, ea.display_name, ea.elevenlabs_agent_id, ea.welcome_message\nFROM elevenlabs_agents ea\nJOIN telegram_users tu ON tu.selected_agent_id = ea.id\nWHERE tu.id = {{ $json.user_id }}\n  AND ea.user_id = {{ $json.user_id }}\n  AND ea.is_active = TRUE\nLIMIT 1;"
       },
       "id": "6599f4aa-77fc-39ed-1d7f-c91f018b7779",
       "name": "Load Selected Agent For Welcome Update",
@@ -1141,7 +1309,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "UPDATE elevenlabs_agents\nSET welcome_message = {{ JSON.stringify($('Build Context').item.json.text) }}\nWHERE id = {{ $('Load Selected Agent For Welcome Update').first().json.id }}\n  AND user_id = {{ $('Build Context').item.json.user_id }};"
+        "query": "UPDATE elevenlabs_agents\nSET welcome_message = {{ JSON.stringify($('Build Context').item.json.text) }}\nWHERE id = {{ $('Load Selected Agent For Welcome Update').first().json.id }}\n  AND user_id = {{ $('Build Context').item.json.user_id }}\n  AND is_active = TRUE;"
       },
       "id": "09c7ddd0-5669-1c80-7816-ebe156b7ea13",
       "name": "Save Welcome Locally",
@@ -1205,7 +1373,7 @@
         "sendBody": true,
         "contentType": "json",
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: \"Agent welcome message updated successfully.\", reply_markup: {\"inline_keyboard\":[[{\"text\":\"Current agent\",\"callback_data\":\"agent:current\"}],[{\"text\":\"Update prompt\",\"callback_data\":\"edit:prompt\"}],[{\"text\":\"Update welcome message\",\"callback_data\":\"edit:welcome\"}],[{\"text\":\"Update knowledge base\",\"callback_data\":\"edit:knowledge\"}],[{\"text\":\"My agents\",\"callback_data\":\"agents:list\"}],[{\"text\":\"Menu\",\"callback_data\":\"menu\"}]]} }) }}",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: 'Agent welcome message updated successfully.', reply_markup: { inline_keyboard: [[{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Add new agent', callback_data: 'agent:add' }], [{ text: 'Remove agent', callback_data: 'agent:remove:list' }], [{ text: 'Current agent', callback_data: 'agent:current' }], [{ text: 'Update prompt', callback_data: 'edit:prompt' }], [{ text: 'Update welcome message', callback_data: 'edit:welcome' }], [{ text: 'Update knowledge base', callback_data: 'edit:knowledge' }]] } }) }}",
         "options": {}
       },
       "id": "aa17cfac-ee5b-4dd7-666e-3f227f6ec844",
@@ -1220,7 +1388,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT ea.id, ea.display_name, ea.elevenlabs_agent_id\nFROM elevenlabs_agents ea\nJOIN telegram_users tu ON tu.selected_agent_id = ea.id\nWHERE tu.id = {{ $json.user_id }}\n  AND ea.user_id = {{ $json.user_id }}\nLIMIT 1;"
+        "query": "SELECT ea.id, ea.display_name, ea.elevenlabs_agent_id\nFROM elevenlabs_agents ea\nJOIN telegram_users tu ON tu.selected_agent_id = ea.id\nWHERE tu.id = {{ $json.user_id }}\n  AND ea.user_id = {{ $json.user_id }}\n  AND ea.is_active = TRUE\nLIMIT 1;"
       },
       "id": "680676d6-b11a-8924-295e-7b263f9f09ff",
       "name": "Load Selected Agent For Knowledge Edit",
@@ -1293,7 +1461,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT ea.id, ea.display_name, ea.elevenlabs_agent_id\nFROM elevenlabs_agents ea\nJOIN telegram_users tu ON tu.selected_agent_id = ea.id\nWHERE tu.id = {{ $json.user_id }}\n  AND ea.user_id = {{ $json.user_id }}\nLIMIT 1;"
+        "query": "SELECT ea.id, ea.display_name, ea.elevenlabs_agent_id\nFROM elevenlabs_agents ea\nJOIN telegram_users tu ON tu.selected_agent_id = ea.id\nWHERE tu.id = {{ $json.user_id }}\n  AND ea.user_id = {{ $json.user_id }}\n  AND ea.is_active = TRUE\nLIMIT 1;"
       },
       "id": "a2d2dbce-1076-47a2-5127-eb81a5e36d1d",
       "name": "Load Selected Agent For Knowledge Update",
@@ -1485,7 +1653,7 @@
         "sendBody": true,
         "contentType": "json",
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: \"Agent knowledge base updated successfully.\", reply_markup: {\"inline_keyboard\":[[{\"text\":\"Current agent\",\"callback_data\":\"agent:current\"}],[{\"text\":\"Update prompt\",\"callback_data\":\"edit:prompt\"}],[{\"text\":\"Update welcome message\",\"callback_data\":\"edit:welcome\"}],[{\"text\":\"Update knowledge base\",\"callback_data\":\"edit:knowledge\"}],[{\"text\":\"My agents\",\"callback_data\":\"agents:list\"}],[{\"text\":\"Menu\",\"callback_data\":\"menu\"}]]} }) }}",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: 'Agent knowledge base updated successfully.', reply_markup: { inline_keyboard: [[{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Add new agent', callback_data: 'agent:add' }], [{ text: 'Remove agent', callback_data: 'agent:remove:list' }], [{ text: 'Current agent', callback_data: 'agent:current' }], [{ text: 'Update prompt', callback_data: 'edit:prompt' }], [{ text: 'Update welcome message', callback_data: 'edit:welcome' }], [{ text: 'Update knowledge base', callback_data: 'edit:knowledge' }]] } }) }}",
         "options": {}
       },
       "id": "1f32f7d5-9fc4-ba23-af67-5b4d8919194a",
@@ -1504,7 +1672,7 @@
         "sendBody": true,
         "contentType": "json",
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: \"Please select an agent first.\", reply_markup: {\"inline_keyboard\":[[{\"text\":\"My agents\",\"callback_data\":\"agents:list\"}],[{\"text\":\"Menu\",\"callback_data\":\"menu\"}]]} }) }}",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: 'Please select an agent first.', reply_markup: { inline_keyboard: [[{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Menu', callback_data: 'menu' }]] } }) }}",
         "options": {}
       },
       "id": "98362987-e25a-fc31-d159-9c9b7bbae4a9",
@@ -1523,7 +1691,7 @@
         "sendBody": true,
         "contentType": "json",
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: \"Unknown command. Use /menu to continue.\", reply_markup: {\"inline_keyboard\":[[{\"text\":\"My agents\",\"callback_data\":\"agents:list\"}],[{\"text\":\"Current agent\",\"callback_data\":\"agent:current\"}],[{\"text\":\"Update prompt\",\"callback_data\":\"edit:prompt\"}],[{\"text\":\"Update welcome message\",\"callback_data\":\"edit:welcome\"}],[{\"text\":\"Update knowledge base\",\"callback_data\":\"edit:knowledge\"}]]} }) }}",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: 'Unknown command. Use /menu to continue.', reply_markup: { inline_keyboard: [[{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Add new agent', callback_data: 'agent:add' }], [{ text: 'Remove agent', callback_data: 'agent:remove:list' }], [{ text: 'Current agent', callback_data: 'agent:current' }], [{ text: 'Update prompt', callback_data: 'edit:prompt' }], [{ text: 'Update welcome message', callback_data: 'edit:welcome' }], [{ text: 'Update knowledge base', callback_data: 'edit:knowledge' }]] } }) }}",
         "options": {}
       },
       "id": "be134fc7-2fc4-0777-9c1b-5766267f2c80",
@@ -1533,6 +1701,799 @@
       "position": [
         2300,
         2220
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/answerCallbackQuery",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ callback_query_id: $json.callback_query_id || $('Build Context').item.json.callback_query_id }) }}",
+        "options": {}
+      },
+      "id": "ce917d99-a4e2-1e4e-1979-d4000374f214",
+      "name": "Answer Callback Query",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1300,
+        -240
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE telegram_users\nSET state = 'waiting_add_agent_id'\nWHERE id = {{ $json.user_id }};"
+      },
+      "id": "b883b022-25a4-d2a6-0869-82d79bb39a60",
+      "name": "Set State Waiting Add Agent ID",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        1640,
+        2400
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "mysql-account-placeholder",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: 'To add a new ElevenLabs agent:\\n\\n1. Open https://elevenlabs.io/app/agents/new\\n2. Create a new agent.\\n3. Open the agent customization page.\\n4. Click the three dots in the top-right corner.\\n5. Copy the Agent ID.\\n\\nThen send the Agent ID here.\\n\\nExample:\\nagent_abc123...', reply_markup: { inline_keyboard: [[{ text: 'Menu', callback_data: 'menu' }]] } }) }}",
+        "options": {}
+      },
+      "id": "003b846e-0dc4-d0a1-bc42-4cc38be039e8",
+      "name": "Send Add Agent Instructions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1900,
+        2400
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const ctx = $json;\nconst agentId = (ctx.text || '').trim();\nconst isValid = agentId.startsWith('agent_') && agentId.length >= 10 && agentId.length <= 255 && /^[A-Za-z0-9_-]+$/.test(agentId);\nreturn [{ json: { ...ctx, candidate_agent_id: agentId, is_valid_agent_id: isValid } }];"
+      },
+      "id": "ff4a6564-f583-3f2c-be01-9241e446e542",
+      "name": "Validate Agent ID",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1640,
+        2640
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5ea5d251-f26f-6105-e8dd-419193878b75",
+                    "leftValue": "={{ $json.is_valid_agent_id }}",
+                    "rightValue": true,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "valid-agent-id"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "id": "c2016fa0-3bae-b18b-9e76-af9030d9149a",
+      "name": "Is Valid Agent ID",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1900,
+        2640
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: 'This does not look like a valid ElevenLabs Agent ID. Please send an ID that starts with agent_', reply_markup: { inline_keyboard: [[{ text: 'Cancel', callback_data: '/cancel' }], [{ text: 'Menu', callback_data: 'menu' }]] } }) }}",
+        "options": {}
+      },
+      "id": "56d0a633-b416-2e4b-592b-309338f967fa",
+      "name": "Send Invalid Agent ID",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2160,
+        2740
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.elevenlabs.io/v1/convai/agents/{{$json.candidate_agent_id}}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "xi-api-key",
+              "value": "={{ $env.ELEVENLABS_API_KEY }}"
+            }
+          ]
+        },
+        "options": {},
+        "ignoreResponseCode": true
+      },
+      "id": "0b5776e5-a5f6-bee7-0cdb-3287e0aab086",
+      "name": "Get ElevenLabs Agent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2160,
+        2580
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const ctx = $('Validate Agent ID').item.json;\nconst res = $json || {};\nconst status = res.statusCode || res.status || 200;\nconst hasError = Boolean(res.error || res.message?.includes?.('ERROR') || status >= 400);\nconst displayName = res.name || res.agent?.name || res.conversation_config?.agent?.name || res.display_name || 'ElevenLabs Agent';\nreturn [{ json: { ...ctx, elevenlabs_found: !hasError, display_name: displayName } }];"
+      },
+      "id": "f6a23a3b-1564-9af5-02cd-e461b9c95b53",
+      "name": "Build Add Agent Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2420,
+        2580
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2739bb26-0ce4-5a5a-d560-051592efe21f",
+                    "leftValue": "={{ $json.elevenlabs_found }}",
+                    "rightValue": true,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "found"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "id": "8fd886ad-1533-3d8e-c745-7ab98ab559f8",
+      "name": "Was ElevenLabs Agent Found",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2680,
+        2580
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: 'I could not find this agent in ElevenLabs. Please check the Agent ID and try again.', reply_markup: { inline_keyboard: [[{ text: 'Cancel', callback_data: '/cancel' }], [{ text: 'Menu', callback_data: 'menu' }]] } }) }}",
+        "options": {}
+      },
+      "id": "daed3156-10f1-5502-e3d9-79db0834ca50",
+      "name": "Send Agent Not Found",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2940,
+        2700
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT id, user_id, display_name, is_active\nFROM elevenlabs_agents\nWHERE elevenlabs_agent_id = {{ JSON.stringify($json.candidate_agent_id) }}\nLIMIT 1;"
+      },
+      "id": "9f9e3156-169e-c300-b81e-3d3ce9dae90c",
+      "name": "Check Existing Agent Link",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        2940,
+        2520
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "mysql-account-placeholder",
+          "name": "MySQL account"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const ctx = $('Build Add Agent Result').item.json;\nconst existing = $input.first().json || {};\nlet decision = 'insert';\nif (existing.id && Number(existing.user_id) !== Number(ctx.user_id)) decision = 'other-user';\nelse if (existing.id) decision = 'reactivate';\nreturn [{ json: { ...ctx, existing_agent_id: existing.id || null, link_decision: decision } }];"
+      },
+      "id": "94fa366c-1645-e4b3-d281-4db317152b48",
+      "name": "Build Agent Link Decision",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3200,
+        2520
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cdea1179-dc24-120e-1d60-3e195283eb44",
+                    "leftValue": "={{ $json.link_decision }}",
+                    "rightValue": "other-user",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "other-user"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4f0c736e-a515-3cd0-ec27-3e08795ea0d5",
+                    "leftValue": "={{ $json.link_decision }}",
+                    "rightValue": "reactivate",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "reactivate"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a26aafc1-f521-420b-84a6-5c0884ceaff6",
+                    "leftValue": "={{ $json.link_decision }}",
+                    "rightValue": "insert",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "insert"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "id": "cc04d8bc-f95f-bd9a-6b9c-9daa9841c9ae",
+      "name": "Agent Link Decision",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        3460,
+        2520
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: 'This agent is already linked to another Telegram user.', reply_markup: { inline_keyboard: [[{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Add new agent', callback_data: 'agent:add' }], [{ text: 'Remove agent', callback_data: 'agent:remove:list' }], [{ text: 'Current agent', callback_data: 'agent:current' }], [{ text: 'Update prompt', callback_data: 'edit:prompt' }], [{ text: 'Update welcome message', callback_data: 'edit:welcome' }], [{ text: 'Update knowledge base', callback_data: 'edit:knowledge' }]] } }) }}",
+        "options": {}
+      },
+      "id": "8b17ebe8-fef5-ced2-2ca6-2d3cfc1cd15e",
+      "name": "Send Agent Linked Elsewhere",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3720,
+        2380
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE elevenlabs_agents\nSET display_name = {{ JSON.stringify($json.display_name) }},\n    is_active = TRUE,\n    removed_at = NULL\nWHERE id = {{ $json.existing_agent_id }}\n  AND user_id = {{ $json.user_id }};"
+      },
+      "id": "939cc611-d32b-fc53-9b53-b2a757abaf29",
+      "name": "Reactivate Existing Agent",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3720,
+        2520
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "mysql-account-placeholder",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO elevenlabs_agents (user_id, elevenlabs_agent_id, display_name, is_active, removed_at)\nVALUES (\n  {{ $json.user_id }},\n  {{ JSON.stringify($json.candidate_agent_id) }},\n  {{ JSON.stringify($json.display_name) }},\n  TRUE,\n  NULL\n);"
+      },
+      "id": "0d365355-9a58-fc59-5d65-3a3894e9f06f",
+      "name": "Insert New Agent Link",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3720,
+        2660
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "mysql-account-placeholder",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE telegram_users\nSET state = 'idle'\nWHERE id = {{ $('Build Agent Link Decision').item.json.user_id }};"
+      },
+      "id": "47433484-caee-a93d-b5ae-a0cfbec27983",
+      "name": "Clear State After Add Agent",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3980,
+        2580
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "mysql-account-placeholder",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT id, display_name\nFROM elevenlabs_agents\nWHERE elevenlabs_agent_id = {{ JSON.stringify($('Build Agent Link Decision').item.json.candidate_agent_id) }}\n  AND user_id = {{ $('Build Agent Link Decision').item.json.user_id }}\n  AND is_active = TRUE\nLIMIT 1;"
+      },
+      "id": "426d617e-1d3e-f30f-b3a3-97494655a47c",
+      "name": "Load Added Agent For Log",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        4240,
+        2580
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "mysql-account-placeholder",
+          "name": "MySQL account"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO agent_update_logs (agent_id, telegram_user_id, action, new_value, status)\nVALUES (\n  {{ $json.id }},\n  {{ $('Build Agent Link Decision').item.json.user_id }},\n  'add_agent',\n  {{ JSON.stringify($('Build Agent Link Decision').item.json.candidate_agent_id) }},\n  'success'\n);"
+      },
+      "id": "1d528f80-007a-64d2-5c57-c71d85d1a843",
+      "name": "Log Agent Added",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        4500,
+        2580
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "mysql-account-placeholder",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: 'Agent added successfully: ' + $('Load Added Agent For Log').first().json.display_name, reply_markup: { inline_keyboard: [[{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Menu', callback_data: 'menu' }]] } }) }}",
+        "options": {}
+      },
+      "id": "e7fbaa83-1e8f-1951-0205-8b53e531f933",
+      "name": "Send Agent Added",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4760,
+        2580
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT id, display_name, elevenlabs_agent_id\nFROM elevenlabs_agents\nWHERE user_id = {{ $json.user_id }}\n  AND is_active = TRUE\nORDER BY display_name ASC;"
+      },
+      "id": "d4d841eb-74a2-f59f-8c05-cd053ed41fa9",
+      "name": "Load Removable Agents",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        1640,
+        2940
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "mysql-account-placeholder",
+          "name": "MySQL account"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all().map(item => item.json).filter(row => row.id);\nif (!rows.length) {\n  return [{ json: { text: 'You do not have any agents to remove.', reply_markup: { inline_keyboard: [[{ text: 'Menu', callback_data: 'menu' }]] } } }];\n}\nreturn [{ json: { text: 'Choose an agent to remove from your bot list. This will not delete the agent in ElevenLabs.', reply_markup: { inline_keyboard: rows.map(agent => ([{ text: agent.display_name, callback_data: 'agent:remove:confirm:' + agent.id }])).concat([[{ text: 'Menu', callback_data: 'menu' }]]) } } }];"
+      },
+      "id": "5b753e4a-bc44-f7f0-941d-34f7c46d694e",
+      "name": "Build Remove Agents Keyboard",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1900,
+        2940
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: $json.text, reply_markup: $json.reply_markup }) }}",
+        "options": {}
+      },
+      "id": "112a5506-31d7-9089-36f8-7a3783cea3a3",
+      "name": "Send Remove Agents List",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2160,
+        2940
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const ctx = $json;\nconst id = Number((ctx.callback_data || '').split(':')[3]);\nreturn [{ json: { ...ctx, remove_agent_id: Number.isFinite(id) ? id : 0 } }];"
+      },
+      "id": "69329969-0e03-8ccc-b985-65a86e827e77",
+      "name": "Extract Remove Confirm Agent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1640,
+        3180
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT id, display_name\nFROM elevenlabs_agents\nWHERE id = {{ $json.remove_agent_id }}\n  AND user_id = {{ $json.user_id }}\n  AND is_active = TRUE\nLIMIT 1;"
+      },
+      "id": "3b214845-08ea-e5bd-baea-575cd24d4308",
+      "name": "Verify Agent Before Remove",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        1900,
+        3180
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "mysql-account-placeholder",
+          "name": "MySQL account"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const ctx = $('Extract Remove Confirm Agent').item.json;\nconst agent = $input.first().json || {};\nif (!agent.id) return [{ json: { text: 'You do not have access to this agent.', reply_markup: { inline_keyboard: [[{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Menu', callback_data: 'menu' }]] } } }];\nreturn [{ json: { text: 'Remove ' + agent.display_name + ' from your bot list?\\n\\nThe agent will not be deleted in ElevenLabs.', reply_markup: { inline_keyboard: [[{ text: 'Yes, remove', callback_data: 'agent:remove:do:' + agent.id }], [{ text: 'Cancel', callback_data: 'agents:list' }]] } } }];"
+      },
+      "id": "21bb8b77-8d64-cec7-c7db-8d490ca29b3d",
+      "name": "Build Remove Confirmation",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2160,
+        3180
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: $json.text, reply_markup: $json.reply_markup }) }}",
+        "options": {}
+      },
+      "id": "2d82140a-7d19-9932-bb3a-7e2e42c1245d",
+      "name": "Send Remove Confirmation",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2420,
+        3180
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const ctx = $json;\nconst id = Number((ctx.callback_data || '').split(':')[3]);\nreturn [{ json: { ...ctx, remove_agent_id: Number.isFinite(id) ? id : 0 } }];"
+      },
+      "id": "824574c0-983e-d3ac-2ec2-3b7c613c8183",
+      "name": "Extract Final Remove Agent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1640,
+        3420
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT id, display_name\nFROM elevenlabs_agents\nWHERE id = {{ $json.remove_agent_id }}\n  AND user_id = {{ $json.user_id }}\n  AND is_active = TRUE\nLIMIT 1;"
+      },
+      "id": "76b45df4-807f-3ebf-9ee1-131bab6ead1b",
+      "name": "Verify Agent Before Final Remove",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        1900,
+        3420
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "mysql-account-placeholder",
+          "name": "MySQL account"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "82213990-90cb-a472-928d-3f675002f4d1",
+                    "leftValue": "={{ Boolean($json.id) }}",
+                    "rightValue": true,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "can-remove"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "id": "edca058b-ac65-c1e4-1c50-d384b3982602",
+      "name": "Can Remove Agent",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2160,
+        3420
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE elevenlabs_agents\nSET is_active = FALSE,\n    removed_at = CURRENT_TIMESTAMP\nWHERE id = {{ $('Verify Agent Before Final Remove').first().json.id }}\n  AND user_id = {{ $('Build Context').item.json.user_id }}\n  AND is_active = TRUE;"
+      },
+      "id": "60d009d2-c510-15a9-36fa-b172669e545f",
+      "name": "Soft Remove Agent",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        2420,
+        3360
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "mysql-account-placeholder",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE telegram_users\nSET selected_agent_id = NULL,\n    state = 'idle'\nWHERE id = {{ $('Build Context').item.json.user_id }}\n  AND selected_agent_id = {{ $('Verify Agent Before Final Remove').first().json.id }};"
+      },
+      "id": "53dd3ed9-2259-fdab-6705-87636be20731",
+      "name": "Clear Selected Agent If Removed",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        2680,
+        3360
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "mysql-account-placeholder",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO agent_update_logs (agent_id, telegram_user_id, action, old_value, status)\nVALUES (\n  {{ $('Verify Agent Before Final Remove').first().json.id }},\n  {{ $('Build Context').item.json.user_id }},\n  'remove_agent',\n  {{ JSON.stringify($('Verify Agent Before Final Remove').first().json.display_name) }},\n  'success'\n);"
+      },
+      "id": "8c21b149-de03-2e89-7f4f-f5cf800d8cbb",
+      "name": "Log Agent Removed",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        2940,
+        3360
+      ],
+      "credentials": {
+        "mySql": {
+          "id": "mysql-account-placeholder",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: 'Agent removed from your bot list.', reply_markup: { inline_keyboard: [[{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Menu', callback_data: 'menu' }]] } }) }}",
+        "options": {}
+      },
+      "id": "03096a44-ce73-97ee-101b-b601368e0b98",
+      "name": "Send Agent Removed",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3200,
+        3360
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $json.chat_id || $('Build Context').item.json.chat_id, text: 'You do not have access to this agent.', reply_markup: { inline_keyboard: [[{ text: 'My agents', callback_data: 'agents:list' }], [{ text: 'Menu', callback_data: 'menu' }]] } }) }}",
+        "options": {}
+      },
+      "id": "9e0ece78-e21a-cab0-727e-6780ccd3cb8e",
+      "name": "Send Remove Access Denied",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2420,
+        3500
       ]
     }
   ],
@@ -1587,6 +2548,11 @@
         [
           {
             "node": "Router",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Answer Callback Query",
             "type": "main",
             "index": 0
           }
@@ -1696,6 +2662,55 @@
         [
           {
             "node": "Load Selected Agent For Knowledge Update",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set State Waiting Add Agent ID",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set State Waiting Add Agent ID",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Validate Agent ID",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Load Removable Agents",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Load Removable Agents",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract Remove Confirm Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract Final Remove Agent",
             "type": "main",
             "index": 0
           }
@@ -2131,6 +3146,316 @@
         [
           {
             "node": "Send Knowledge Updated",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set State Waiting Add Agent ID": {
+      "main": [
+        [
+          {
+            "node": "Send Add Agent Instructions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Agent ID": {
+      "main": [
+        [
+          {
+            "node": "Is Valid Agent ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Valid Agent ID": {
+      "main": [
+        [
+          {
+            "node": "Get ElevenLabs Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Invalid Agent ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get ElevenLabs Agent": {
+      "main": [
+        [
+          {
+            "node": "Build Add Agent Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Add Agent Result": {
+      "main": [
+        [
+          {
+            "node": "Was ElevenLabs Agent Found",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Was ElevenLabs Agent Found": {
+      "main": [
+        [
+          {
+            "node": "Check Existing Agent Link",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Agent Not Found",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Existing Agent Link": {
+      "main": [
+        [
+          {
+            "node": "Build Agent Link Decision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Agent Link Decision": {
+      "main": [
+        [
+          {
+            "node": "Agent Link Decision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent Link Decision": {
+      "main": [
+        [
+          {
+            "node": "Send Agent Linked Elsewhere",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reactivate Existing Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Insert New Agent Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reactivate Existing Agent": {
+      "main": [
+        [
+          {
+            "node": "Clear State After Add Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert New Agent Link": {
+      "main": [
+        [
+          {
+            "node": "Clear State After Add Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clear State After Add Agent": {
+      "main": [
+        [
+          {
+            "node": "Load Added Agent For Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Added Agent For Log": {
+      "main": [
+        [
+          {
+            "node": "Log Agent Added",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Agent Added": {
+      "main": [
+        [
+          {
+            "node": "Send Agent Added",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Removable Agents": {
+      "main": [
+        [
+          {
+            "node": "Build Remove Agents Keyboard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Remove Agents Keyboard": {
+      "main": [
+        [
+          {
+            "node": "Send Remove Agents List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Remove Confirm Agent": {
+      "main": [
+        [
+          {
+            "node": "Verify Agent Before Remove",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify Agent Before Remove": {
+      "main": [
+        [
+          {
+            "node": "Build Remove Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Remove Confirmation": {
+      "main": [
+        [
+          {
+            "node": "Send Remove Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Final Remove Agent": {
+      "main": [
+        [
+          {
+            "node": "Verify Agent Before Final Remove",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify Agent Before Final Remove": {
+      "main": [
+        [
+          {
+            "node": "Can Remove Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Can Remove Agent": {
+      "main": [
+        [
+          {
+            "node": "Soft Remove Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Remove Access Denied",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Soft Remove Agent": {
+      "main": [
+        [
+          {
+            "node": "Clear Selected Agent If Removed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clear Selected Agent If Removed": {
+      "main": [
+        [
+          {
+            "node": "Log Agent Removed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Agent Removed": {
+      "main": [
+        [
+          {
+            "node": "Send Agent Removed",
             "type": "main",
             "index": 0
           }

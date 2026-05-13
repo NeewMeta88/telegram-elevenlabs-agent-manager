@@ -28,13 +28,15 @@ INSERT INTO elevenlabs_agents (
   elevenlabs_agent_id,
   display_name,
   current_prompt,
-  welcome_message
+  welcome_message,
+  is_active
 ) VALUES (
   @telegram_user_db_id,
   @elevenlabs_agent_id_placeholder,
   'Example Agent',
   'Prompt placeholder for the selected ElevenLabs voice agent.',
-  'Welcome message placeholder.'
+  'Welcome message placeholder.',
+  TRUE
 );
 
 SET @agent_db_id = (
@@ -42,6 +44,7 @@ SET @agent_db_id = (
   FROM elevenlabs_agents
   WHERE user_id = @telegram_user_db_id
     AND elevenlabs_agent_id = @elevenlabs_agent_id_placeholder
+    AND is_active = TRUE
 );
 
 UPDATE telegram_users

@@ -21,7 +21,7 @@ n8n-based Telegram bot for managing ElevenLabs voice agents. The bot stores Tele
 
 3. Get an ElevenLabs API key from your ElevenLabs account settings.
 
-4. Create or choose existing ElevenLabs agents that this bot will manage. Keep their ElevenLabs agent IDs available for seed data and workflow configuration.
+4. Create or choose existing ElevenLabs agents that this bot will manage. Users can also link agents later from Telegram with the Add new agent menu action.
 
 5. Copy the environment template:
 
@@ -89,7 +89,7 @@ n8n-based Telegram bot for managing ElevenLabs voice agents. The bot stores Tele
 
 13. Add seed data with your Telegram user ID and ElevenLabs agent ID. Use `database/seed.example.sql` as a template and keep real values out of version control.
 
-14. Test bot commands in Telegram. Confirm that the bot can identify the Telegram user, list or select owned agents, and update the selected ElevenLabs agent.
+14. Test bot commands in Telegram. Confirm that the bot can identify the Telegram user, add an ElevenLabs agent, list or select owned agents, update the selected agent, and remove a local bot link.
 
 15. Export the final n8n workflow JSON before submission.
 
@@ -107,7 +107,7 @@ MySQL is available locally on `127.0.0.1:${MYSQL_PORT}` using the value from `.e
 
 ## Database
 
-`database/schema.sql` is mounted into the MySQL init directory and runs on first database startup. It creates:
+`database/schema.sql` is the canonical final MySQL structure for submission. It is mounted into the MySQL init directory and runs on first database startup. It creates the complete final schema:
 
 - `telegram_users`
 - `elevenlabs_agents`
@@ -115,6 +115,29 @@ MySQL is available locally on `127.0.0.1:${MYSQL_PORT}` using the value from `.e
 - `agent_update_logs`
 
 `database/seed.example.sql` contains placeholder-only sample data for local testing.
+
+Migration files under `database/migrations/` are optional local update helpers for an existing development database. They are not required to understand or submit the final database structure.
+
+## Agent Management
+
+Add new agent:
+
+- In Telegram, use `/add_agent` or the Add new agent button.
+- Open `https://elevenlabs.io/app/agents/new`.
+- Create a new agent.
+- Open the agent customization page.
+- Click the three dots in the top-right corner.
+- Copy the Agent ID and send it to the bot.
+
+The bot validates that the ID starts with `agent_`, checks the agent through the ElevenLabs API, and links it to the current Telegram user in MySQL.
+
+Remove agent:
+
+- In Telegram, use `/remove_agent` or the Remove agent button.
+- Choose one of your active linked agents.
+- Confirm removal.
+
+Removing an agent only soft-removes the local bot link by setting `elevenlabs_agents.is_active = FALSE` and `removed_at = CURRENT_TIMESTAMP`. It does not call the ElevenLabs delete API and does not delete the real ElevenLabs agent.
 
 ## Security
 
@@ -147,10 +170,23 @@ Telegram callback issues:
 - Check that callback data matches the workflow routing logic.
 - Make sure the Telegram user ID exists in `telegram_users` and has access to the selected agent.
 
+## Final Testing Checklist
+
+- `/start`
+- `/menu`
+- Add new agent
+- My agents
+- Select agent
+- Update prompt
+- Update welcome message
+- Update knowledge base
+- Remove agent
+- Security test with a second Telegram user
+
 ## Final Submission Checklist
 
 - `n8n/telegram-elevenlabs-agent-manager.json` imports into n8n.
-- `database/schema.sql` creates all required tables, indexes, and foreign keys.
+- `database/schema.sql` is the standalone final MySQL schema and creates all required tables, indexes, and foreign keys.
 - Workflow HTTP Request nodes read `TELEGRAM_BOT_TOKEN` and `ELEVENLABS_API_KEY` from environment variables.
 - Local self-hosted n8n has `N8N_BLOCK_ENV_ACCESS_IN_NODE=false`.
 - README setup steps are complete and reproducible.

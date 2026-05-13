@@ -19,23 +19,45 @@ No Telegram token, ElevenLabs API key, or MySQL password is stored in the workfl
 3. `Upsert User` inserts or updates `telegram_users` by Telegram id.
 4. `Load User` loads the local user id, selected agent, and state.
 5. `Build Context` merges Telegram and database fields into one routing object.
-6. `Router` handles `/start`, `/menu`, `/agents`, `/current`, `/cancel`, menu callbacks, agent selection callbacks, edit callbacks, waiting text states, and fallback.
+6. `Router` handles `/start`, `/menu`, `/agents`, `/current`, `/add_agent`, `/remove_agent`, `/cancel`, menu callbacks, add/remove callbacks, agent selection callbacks, edit callbacks, waiting text states, and fallback.
 
 ## Agent Security
 
-Every agent read or write is filtered with the current local `telegram_users.id` as `user_id`. Agent callback data contains the internal agent id, but selection is accepted only after `Verify Selected Agent Owner` confirms ownership. Prompt, welcome, and knowledge updates all reload the selected agent through `telegram_users.selected_agent_id` and `elevenlabs_agents.user_id` before calling ElevenLabs.
+Every agent read or write is filtered with the current local `telegram_users.id` as `user_id` and `elevenlabs_agents.is_active = TRUE`. Agent callback data contains the internal agent id, but selection, update, and removal actions are accepted only after ownership and active status are confirmed. Prompt, welcome, and knowledge updates all reload the selected agent through `telegram_users.selected_agent_id`, `elevenlabs_agents.user_id`, and `elevenlabs_agents.is_active` before calling ElevenLabs.
 
 ## Menus
 
 The main menu sends inline buttons for:
 
 - My agents: `agents:list`
+- Add new agent: `agent:add`
+- Remove agent: `agent:remove:list`
 - Current agent: `agent:current`
 - Update prompt: `edit:prompt`
 - Update welcome message: `edit:welcome`
 - Update knowledge base: `edit:knowledge`
 
-The agents list queries only rows owned by the current user and builds `agent:select:<internal id>` callbacks.
+The agents list queries only active rows owned by the current user and builds `agent:select:<internal id>` callbacks.
+
+## Add Agent Flow
+
+- `/add_agent` and `agent:add` set `telegram_users.state` to `waiting_add_agent_id`.
+- The bot sends instructions for creating an ElevenLabs agent, opening its customization page, using the top-right three dots, and copying the Agent ID.
+- The next text message is trimmed and must start with `agent_`.
+- `Get ElevenLabs Agent` calls `GET /v1/convai/agents/{{agent_id}}` with `xi-api-key: {{ $env.ELEVENLABS_API_KEY }}`.
+- `Check Existing Agent Link` prevents linking an ElevenLabs agent id that already belongs to another Telegram user.
+- Existing same-user links are reactivated with `is_active = TRUE` and `removed_at = NULL`; new links are inserted for the current user.
+- Successful add clears state to `idle`, logs `add_agent`, and returns menu buttons.
+
+## Remove Agent Flow
+
+- `/remove_agent` and `agent:remove:list` load only active agents for the current user.
+- `agent:remove:confirm:<id>` verifies `id`, `user_id`, and `is_active = TRUE`, then sends a confirmation message.
+- `agent:remove:do:<id>` verifies ownership and active status again.
+- `Soft Remove Agent` updates only the local MySQL link with `is_active = FALSE` and `removed_at = CURRENT_TIMESTAMP`.
+- If the removed agent was selected, `telegram_users.selected_agent_id` is set to `NULL`.
+- The flow logs `remove_agent` and returns My agents/Menu buttons.
+- The workflow never calls a destructive ElevenLabs delete endpoint.
 
 ## Update Flows
 
@@ -45,4 +67,4 @@ The agents list queries only rows owned by the current user and builds `agent:se
 
 ## Schema Compatibility
 
-The workflow follows the current `database/schema.sql`: user state is cleared by setting it to `idle` because the column is `NOT NULL`, and agent list queries do not reference an `is_active` column because that column is not present in the existing schema.
+The workflow follows the canonical final `database/schema.sql`: user state is cleared by setting it to `idle` because the column is `NOT NULL`, agent lists and updates require `is_active = TRUE`, and soft removal uses `is_active = FALSE` plus `removed_at`.

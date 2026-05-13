@@ -27,12 +27,15 @@ CREATE TABLE IF NOT EXISTS elevenlabs_agents (
   display_name VARCHAR(255) NOT NULL,
   current_prompt TEXT NULL,
   welcome_message TEXT NULL,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  removed_at TIMESTAMP NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY uq_elevenlabs_agents_user_agent (user_id, elevenlabs_agent_id),
+  UNIQUE KEY uq_elevenlabs_agents_external_id (elevenlabs_agent_id),
   KEY idx_elevenlabs_agents_user_id (user_id),
-  KEY idx_elevenlabs_agents_external_id (elevenlabs_agent_id),
+  KEY idx_elevenlabs_agents_user_active (user_id, is_active),
   CONSTRAINT fk_elevenlabs_agents_user
     FOREIGN KEY (user_id) REFERENCES telegram_users (id)
     ON DELETE CASCADE
